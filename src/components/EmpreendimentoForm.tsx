@@ -62,7 +62,7 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
 
   async function buscarCEP(cep: string) {
     const cleanCep = cep.replace(/\D/g, "");
-    if (cleanCep.length !== 8 ) return;
+    if (cleanCep.length !== 8) return;
 
     try {
       setLoadingCep(true);
@@ -204,8 +204,7 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
               <p className="text-red-400 text-xs mt-1">{errors.nome}</p>
             )}
           </div>
-       
-                
+
           <div>
             <input
               name="cnpj"
@@ -218,7 +217,6 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
               <p className="text-red-400 text-xs mt-1">{errors.nome}</p>
             )}
           </div>
-
 
           <div>
             <input
@@ -245,10 +243,10 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
             >
               <option value="Comércio">Comércio</option>
               <option value="Serviço">Serviço</option>
-              <option value="Industria">Industria</option>
+              <option value="Indústria">Indústria</option>
               <option value="Tecnologia">Tecnologia</option>
+              <option value="Agronegócio">Agronegócio</option>
               <option value="Outro">Outro</option>
-
             </select>
           </div>
 
