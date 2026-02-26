@@ -101,7 +101,7 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
       .replace(/(\d{4})(\d)/, "$1-$2")
       .replace(/[-/]$/, "");
   }
-
+ 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
@@ -153,8 +153,10 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
       newErrors.nome = "Mínimo 3 caracteres";
     }
 
-    if (!form.numero.trim()) {
-      form.numero = "S/N";
+    if (!form.cnpj.trim()) {
+      newErrors.cnpj = "CNPJ obrigatório";
+    } else if (form.cnpj.replace(/\D/g, "").length !== 14) {
+      newErrors.cnpj = "CNPJ inválido";
     }
 
     if (!/\S+@\S+\.\S+/.test(form.email)) {
@@ -191,16 +193,24 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
     setAutoFilled(false);
   }
 
+  const cnpjNumeros = form.cnpj.replace(/\D/g, "");
+  const cnpjValido = cnpjNumeros.length === 14 && !errors.cnpj;
   const cardStyle =
     "w-full bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg";
-  const inputStyle = (field: string) =>
-    `w-full p-3 rounded-xl border bg-gray-800 text-gray-100 
-   placeholder-gray-400 transition-all duration-200
-   ${
-     errors[field]
-       ? "border-red-500 focus:ring-2 focus:ring-red-500"
-       : "border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-   }`;
+  const inputStyle = (field: string) => {
+    const isCnpj = field === "cnpj";
+    const isValidCnpj = isCnpj && cnpjValido;
+
+    return `w-full p-3 rounded-xl border bg-gray-800 text-gray-100 
+  placeholder-gray-400 transition-all duration-200
+  ${
+    errors[field]
+      ? "border-red-500 focus:ring-2 focus:ring-red-500"
+      : isValidCnpj
+        ? "border-green-500 focus:ring-2 focus:ring-green-500"
+        : "border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+  }`;
+  };
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
@@ -234,8 +244,13 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
               maxLength={18}
               className={inputStyle("cnpj")}
             />
+
             {errors.cnpj && (
               <p className="text-red-400 text-xs mt-1">{errors.cnpj}</p>
+            )}
+
+            {!errors.cnpj && cnpjValido && (
+              <p className="text-green-400 text-xs mt-1">✔ CNPJ válido</p>
             )}
           </div>
 
@@ -271,46 +286,57 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
             </select>
           </div>
 
-          <div className="flex items-center gap-4 mt-4">
-            <label className="text-gray-300 text-sm">Status:</label>
-
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="status"
-                value="ativo"
-                checked={form.status === "ativo"}
-                onChange={handleChange}
-                className="accent-green-500"
-              />
-              Ativo
+          <div className="mt-6">
+            <label className="text-gray-200 text-base font-medium block mb-3">
+              Status:
             </label>
 
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="status"
-                value="inativo"
-                checked={form.status === "inativo"}
-                onChange={handleChange}
-                className="accent-red-500"
-              />
-              Inativo
-            </label>
+            <div className="flex gap-4">
+              <button
+                type="button"
+                onClick={() =>
+                  setForm((prev) => ({ ...prev, status: "ativo" }))
+                }
+                className={`px-6 py-2 rounded-xl border transition-all
+        ${
+          form.status === "ativo"
+            ? "bg-green-600 border-green-500 text-white"
+            : "bg-gray-800 border-gray-700 text-gray-300"
+        }`}
+              >
+                Ativo
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setForm((prev) => ({ ...prev, status: "inativo" }))
+                }
+                className={`px-6 py-2 rounded-xl border transition-all
+        ${
+          form.status === "inativo"
+            ? "bg-red-600 border-red-500 text-white"
+            : "bg-gray-800 border-gray-700 text-gray-300"
+        }`}
+              >
+                Inativo
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* ENDEREÇO */}
       <div className={cardStyle}>
-        <h3 className="text-lg font-semibold text-gray-200 mb-6">
-          Endereço
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-gray-200">Endereço</h3>
+
           {autoFilled && (
-            <span className="ml-auto text-xs bg-green-900 text-green-400 px-3 py-1 rounded-full border border-green-700">
+            <span className="text-xs bg-green-900 text-green-400 px-3 py-1 rounded-full border border-green-700">
               Preenchido automaticamente
             </span>
           )}
-        </h3>
+        </div>
 
         <div className="grid gap-4">
           <div className="relative">

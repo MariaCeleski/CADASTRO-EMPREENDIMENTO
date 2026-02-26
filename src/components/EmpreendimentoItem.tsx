@@ -10,39 +10,63 @@ export function EmpreendimentoItem({ emp, onDelete, onEdit }: Props) {
   const isAtivo = emp.status === "ativo";
 
   return (
-    <div className="bg-gray-50 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100">
-
+    <div className="bg-gray-900 border-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100">
       {/* HEADER */}
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="uppercase font-bold text-gray-100 text-lg tracking-wider">
+      <div className="flex justify-between items-center mb-5">
+        <h3 className="uppercase font-bold text-gray-800 text-2xl tracking-wide">
           {emp.nome}
         </h3>
 
         <span
-          className={`px-3 py-1 text-xs font-semibold rounded-full ${
-            isAtivo
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
-          }`}
+          className={`px-5 py-2 text-sm font-semibold rounded-full border transition-all duration-300
+      ${
+        isAtivo
+  ? "bg-green-50 text-green-600 border-green-200"
+  : "bg-red-50 text-red-100 border-red-200"
+      }`}
         >
-          {isAtivo ? "Ativo" : "Inativo"}
+          {isAtivo ? "ATIVO" : "INATIVO"}
         </span>
       </div>
 
       {/* INFO */}
-      <div className="text-sm text-gray-600 space-y-1 mb-4">
-        <p><strong>Cnpj:</strong> {emp.cnpj}</p>
-        <p><strong>Empreendedor:</strong> {emp.empreendedor}</p>
-        <p><strong>Tipo de empreendimento:</strong> {emp.tipo}</p>
-        <p><strong>CEP:</strong> {emp.cep}</p>
-        <p><strong>Logradouro:</strong> {emp.logradouro}</p>
-        <p><strong>Número:</strong> {emp.numero}</p>
-        <p><strong>Complemento:</strong> {emp.complemento}</p>
-        <p><strong>Bairro:</strong> {emp.bairro}</p>
-        <p><strong>Município:</strong> {emp.municipio}</p>
-        <p><strong>UF:</strong> {emp.uf}</p>
-        <p><strong>Email:</strong> {emp.email}</p>
-        <p><strong>Telefone:</strong> {emp.telefone}</p>
+      <div className="text-base text-gray-700 leading-relaxed space-y-2 mb-4">
+        <p>
+          <strong>Cnpj:</strong> {emp.cnpj}
+        </p>
+        <p>
+          <strong>Empreendedor:</strong> {emp.empreendedor}
+        </p>
+        <p>
+          <strong>Tipo de empreendimento:</strong> {emp.tipo}
+        </p>
+        <p>
+          <strong>CEP:</strong> {emp.cep}
+        </p>
+        <p>
+          <strong>Logradouro:</strong> {emp.logradouro}
+        </p>
+        <p>
+          <strong>Número:</strong> {emp.numero}
+        </p>
+        <p>
+          <strong>Complemento:</strong> {emp.complemento}
+        </p>
+        <p>
+          <strong>Bairro:</strong> {emp.bairro}
+        </p>
+        <p>
+          <strong>Município:</strong> {emp.municipio}
+        </p>
+        <p>
+          <strong>UF:</strong> {emp.uf}
+        </p>
+        <p>
+          <strong>Email:</strong> {emp.email}
+        </p>
+        <p>
+          <strong>Telefone:</strong> {emp.telefone}
+        </p>
       </div>
 
       {/* ACTIONS */}
@@ -61,7 +85,6 @@ export function EmpreendimentoItem({ emp, onDelete, onEdit }: Props) {
           Excluir
         </button>
       </div>
-
     </div>
   );
 }
