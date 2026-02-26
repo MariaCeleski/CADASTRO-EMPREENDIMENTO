@@ -101,7 +101,7 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
       .replace(/(\d{4})(\d)/, "$1-$2")
       .replace(/[-/]$/, "");
   }
- 
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
@@ -170,6 +170,26 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
+  function gerarIdIncremental(): string {
+    const lista: Empreendimento[] = JSON.parse(
+      localStorage.getItem("empreendimentos") || "[]",
+    );
+
+    if (lista.length === 0) {
+      return "EMP-0001";
+    }
+
+    const numeros = lista.map((emp) => {
+      const match = emp.id.match(/\d+/);
+      return match ? parseInt(match[0], 10) : 0;
+    });
+
+    const maiorNumero = Math.max(...numeros);
+
+    const proximoNumero = maiorNumero + 1;
+
+    return `EMP-${proximoNumero.toString().padStart(4, "0")}`;
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -178,7 +198,7 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
 
     const novoEmp: Empreendimento = {
       ...form,
-      id: form.id || uuidv4(),
+      id: form.id || gerarIdIncremental(),
     };
 
     onSave(novoEmp);
@@ -214,6 +234,14 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-6">
+      {form.id && (
+        <div className="flex justify-end">
+          <span className="bg-gray-800 text-gray-300 px-4 py-1 rounded-full text-sm border border-gray-700">
+            ID: {form.id}
+          </span>
+        </div>
+      )}
+
       {/* DADOS GERAIS */}
 
       <div className={cardStyle}>

@@ -1,25 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Empreendimento } from "./types/Empreendimento";
 import { EmpreendimentoForm } from "./components/EmpreendimentoForm";
 import { EmpreendimentoList } from "./components/EmpreendimentoList";
 
 function App() {
-  const [lista, setLista] = useState<Empreendimento[]>([]);
+  const [lista, setLista] = useState<Empreendimento[]>(() => {
+    const dados = localStorage.getItem("empreendimentos");
+    return dados ? JSON.parse(dados) : [];
+  });
   const [editingEmp, setEditingEmp] = useState<Empreendimento | null>(null);
 
   function handleSave(emp: Empreendimento) {
     if (editingEmp) {
-      setLista((prev) =>
-        prev.map((e) => (e.id === emp.id ? emp : e))
-      );
+      const atualizada = lista.map((e) => (e.id === emp.id ? emp : e));
+
+      setLista(atualizada);
+      localStorage.setItem("empreendimentos", JSON.stringify(atualizada));
+
       setEditingEmp(null);
     } else {
-      setLista((prev) => [...prev, emp]);
+      const novaLista = [...lista, emp];
+
+      setLista(novaLista);
+      localStorage.setItem("empreendimentos", JSON.stringify(novaLista));
     }
   }
 
   function handleDelete(id: string) {
-    setLista((prev) => prev.filter((e) => e.id !== id));
+    const listaAtualizada = lista.filter((emp) => emp.id !== id);
+
+    setLista(listaAtualizada);
+
+    localStorage.setItem("empreendimentos", JSON.stringify(listaAtualizada));
   }
 
   const total = lista.length;
@@ -29,7 +41,6 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
-
         {/* HEADER */}
         <div className="mb-10">
           <h1 className="text-4xl text-4xl font-bold text-gray-800">
@@ -64,10 +75,7 @@ function App() {
             {editingEmp ? "Editar Empreendimento" : "Cadastrar Empreendimento"}
           </h2>
 
-          <EmpreendimentoForm
-            onSave={handleSave}
-            editingEmp={editingEmp}
-          />
+          <EmpreendimentoForm onSave={handleSave} editingEmp={editingEmp} />
         </div>
 
         {/* LISTA */}
@@ -82,7 +90,6 @@ function App() {
             onEdit={setEditingEmp}
           />
         </div>
-
       </div>
     </div>
   );
