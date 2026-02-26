@@ -91,6 +91,17 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
     }
   }
 
+  function formatCNPJ(value: string) {
+    const numbers = value.replace(/\D/g, "").slice(0, 14);
+
+    return numbers
+      .replace(/^(\d{2})(\d)/, "$1.$2")
+      .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+      .replace(/\.(\d{3})(\d)/, ".$1/$2")
+      .replace(/(\d{4})(\d)/, "$1-$2")
+      .replace(/[-/]$/, "");
+  }
+
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
@@ -108,6 +119,14 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
         buscarCEP(formatted);
       }
 
+      return;
+    }
+
+    if (name === "cnpj") {
+      setForm((prev) => ({
+        ...prev,
+        cnpj: formatCNPJ(value),
+      }));
       return;
     }
 
@@ -171,6 +190,7 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
     setErrors({});
     setAutoFilled(false);
   }
+
   const cardStyle =
     "w-full bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-lg";
   const inputStyle = (field: string) =>
@@ -208,13 +228,14 @@ export function EmpreendimentoForm({ onSave, editingEmp }: Props) {
           <div>
             <input
               name="cnpj"
-              placeholder="CNPJ do empreendimento"
+              placeholder="CNPJ"
               value={form.cnpj}
               onChange={handleChange}
-              className={inputStyle("nome")}
+              maxLength={18}
+              className={inputStyle("cnpj")}
             />
-            {errors.nome && (
-              <p className="text-red-400 text-xs mt-1">{errors.nome}</p>
+            {errors.cnpj && (
+              <p className="text-red-400 text-xs mt-1">{errors.cnpj}</p>
             )}
           </div>
 

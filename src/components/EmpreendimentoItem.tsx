@@ -14,7 +14,7 @@ export function EmpreendimentoItem({ emp, onDelete, onEdit }: Props) {
 
       {/* HEADER */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">
+        <h3 className="uppercase font-bold text-gray-100 text-lg tracking-wider">
           {emp.nome}
         </h3>
 
