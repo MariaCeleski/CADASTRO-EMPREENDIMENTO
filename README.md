@@ -355,7 +355,7 @@ http://localhost:5173
 
 O vídeo de apresentação do projeto pode ser acessado no link abaixo:
 
-👉 **[Assista ao vídeo pitch aqui]()**
+👉 **[https://www.youtube.com/watch?v=9hCGrrXkFAk]()**
 
 ---
 
