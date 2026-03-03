@@ -36,7 +36,7 @@ O sistema foi projetado seguindo princípios de componentização, separação d
 
 O projeto foi desenvolvido com as seguintes tecnologias:
 
-- React
+- ReactJS
 - TypeScript
 - Vite
 - Tailwind CSS
@@ -185,7 +185,6 @@ A estrutura modular facilita futuras melhorias, como integração com backend, b
 
 
 
-A estrutura modular facilita futuras melhorias, como integração com backend, banco de dados ou autenticação de usuários.
 
 
 
