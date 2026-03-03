@@ -175,7 +175,7 @@ http://localhost:5173
 
 ---
 
-## 📌 Considerações Finais
+## 📌 *Considerações Finais*
 
 O projeto **empreendedorismo-sc** foi desenvolvido com foco em organização, escalabilidade e experiência do usuário, aplicando conceitos modernos de desenvolvimento front-end, componentização e tipagem forte.
 
